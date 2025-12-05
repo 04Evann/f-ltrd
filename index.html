@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HC</title>
+
+  <!-- Fuente Inter (más bonita y moderna) -->
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0c0c0c;
+      font-family: "Special ELITE", sans-serif;
+      color: #ffffff;
+    }
+
+    header {
+      width: 100%;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    a {
+      color: #7aa3ff;
+      text-decoration: none;
+    }
+
+    h1 {
+      font-size: 88px;
+      font-weight: 900;
+      margin: 120px 40px 0 40px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin: -10px 40px 20px 40px;
+      font-weight: 300;
+      color: #cccccc;
+    }
+
+    hr {
+      margin: 20px 40px;
+      border: none;
+      border-top: 1px solid #333;
+    }
+
+    .panel {
+      margin: 40px;
+      padding: 20px;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 17px;
+      margin-top: 12px;
+      border: 1px solid #333;
+      border-radius: 16px;
+      background: #1a1a1a;
+      color: #fff;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #7aa3ff;
+      background: #242424;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 14px 22px;
+      font-size: 16px;
+      border: none;
+      background: white;
+      color: black;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .section-title {
+      font-size: 32px;
+      margin: 30px 0 10px 0;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 12px 0;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      color: #ccc;
+    }
+
+    .small {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div>HappyCorner/</div>
+    <div>
+      <a id="waLink" href="#" target="_blank">CONTACT</a> &nbsp; | &nbsp; MENU
+    </div>
+  </header>
+
+  <h1>unlock</h1>
+  <h2>your filtered music.</h2>
+
+  <hr>
+
+  <div class="panel" id="loginPanel">
+    <strong>Ingresa tu happycodigo</strong>
+
+    <input id="codeInput" placeholder="ej: HC-10384">
+
+    <button onclick="enter()">Entrar</button>
+
+    <p class="small">
+      ¿No tienes happycodigo?
+      <a id="waLink2" href="#" target="_blank">Pídelo por WhatsApp</a>
+    </p>
+  </div>
+
+  <div id="content" class="hidden">
+    <div class="panel">
+      <div class="section-title">Canciones filtradas</div>
+      <ul>
+        <li>
+          <span>Rewind Edit</span>
+          <a href="#" download>Descargar</a>
+        </li>
+      </ul>
+
+      <div class="section-title">Canciones borradas</div>
+      <ul>
+        <li>
+          <span>Pack 2023</span>
+          <a href="#" download>Descargar</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const WHATSAPP = "34641422390";  
+
+    document.getElementById("waLink").href = "https://wa.me/" + WHATSAPP;
+    document.getElementById("waLink2").href = "https://wa.me/" + WHATSAPP;
+
+    async function enter() {
+      const code = document.getElementById("codeInput").value.trim();
+
+      if (!code) {
+        alert("Ud es como bobo vdd!? mete un codigo.");
+        return;
+      }
+
+      try {
+        const r = await fetch(`https://happy-corner.vercel.app/api/getPoints?codigo=${code}`);
+
+        if (!r.ok) {
+          alert("eso no existe ps mor o no funciona, contactanos abajo al whatsapp ps mor.");
+          return;
+        }
+
+        const data = await r.json();
+
+        document.getElementById("loginPanel").classList.add("hidden");
+        document.getElementById("content").classList.remove("hidden");
+
+      } catch (err) {
+        alert("Error conectando con el servidor.");
+      }
+    }
+  </script>
+
+</body>
+</html>
